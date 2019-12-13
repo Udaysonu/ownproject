@@ -1,0 +1,76 @@
+<div>
+<%if(user.id==user_profile.id){%>
+   
+    <div id='signup-div'>
+    
+            <form action="/user/update_profile/<%=user.id%>" method="post" > 
+                <legend style='color:green'>Sign Up</legend>
+                    <div class="form-group col-lg-9">
+                            <label for="inputEmail4">Email</label>
+                            <input disabled value="<%=user_profile.email%>" required type="email" name='email' class="form-control" id="inputEmail4">
+                            <small>we will not share your email and password with anyone</small>
+                          </div>
+                    <div class="form-row">
+                      
+                      <div class="form-group col-md-5">
+                        <label for="inputPassword4">Password</label>
+                        <input required value="<%=user_profile.password%>" name="password" type="password" class="form-control" id="inputPassword4">
+                      </div>
+                      
+                    </div>
+                     
+                            <div class="form-group col-md-6">
+                              <label for="inputCity">Name</label>
+                              <input value="<%=user_profile.name%>" requierd name='name' type="text" class="form-control" id="inputCity">
+                            </div>           
+                                    <div class="form-group col-md-6">
+                                      <label for="inputCity">Date-of-birth</label>
+                                      <input value="<%=user_profile.dob%>" required name='dob' type="date" class="form-control" id="inputCity">
+                                    </div>          
+                                            <div class="form-group col-md-6">
+                                              <label for="inputCity">Mobile Number</label>
+                                              <input value="<%=user_profile.mobile%>" required name='mobile' min='6000000000' max='9999999999' type="number" class="form-control" id="inputCity">
+                                            </div>
+                    
+                                            <div class="form-group col-md-4">
+                                                    <label for="inputState">Gender</label>
+                                                    <select  required name='gender' id="inputState" class="form-control">
+                                                      <option selected><%=user_profile.gender%></option>
+                                                      <option>Male</option>
+                                                      <option>Female</option>
+                                                      <option>other</option>
+                                                    </select>
+                                                  </div>
+                      <div class="form-group col-md-4">
+                        <label value="<%=user_profile.country%>" for="inputState">country</label>
+                        <select required name='country' id="inputState" class="form-control">
+                          <option selected><%=user_profile.country%></option>
+                          <option>Andhra Pradesh</option>
+                          <option>Telangana</option>
+                          <option>Punjab</option>
+                        </select>
+                      </div>
+                       
+                   
+                     
+                    <button type="submit" class="btn btn-primary">Update Profile</button>
+                  </form>
+    
+    </div>
+     
+
+
+
+
+
+<%}else{%>
+<ul>
+    <li><%=user_profile.name%></li>
+    <li><%=user_profile.email%></li>
+    <li><%=user_profile.dob%></li>
+    <li><%=user_profile.mobile%></li>
+    <li><%=user_profile.gender%></li>
+    <li><%=user_profile.country%></li>
+</ul>   
+<%}%>
+</div>

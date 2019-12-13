@@ -1,0 +1,62 @@
+<link rel='stylesheet' type='text/css' href='/css/signup.css'> 
+<div id='signup-div'>
+
+        <form action="/user/create_user" method="post" > 
+            <legend style='color:green'>Sign Up</legend>
+                <div class="form-group col-lg-9">
+                        <label for="inputEmail4">Email</label>
+                        <input required type="email" name='email' class="form-control" id="inputEmail4">
+                        <small>we will not share your email and password with anyone</small>
+                      </div>
+                <div class="form-row">
+                  
+                  <div class="form-group col-md-5">
+                    <label for="inputPassword4">Password</label>
+                    <input required name="password" type="password" class="form-control" id="inputPassword4">
+                  </div>
+                  <div class="form-group col-md-5">
+                        <label for="inputPassword4">Confirm-Password</label>
+                        <input required name="re_password" type="password" class="form-control" id="inputPassword4">
+                      </div>
+                </div>
+                 
+                        <div class="form-group col-md-6">
+                          <label for="inputCity">Name</label>
+                          <input requierd name='name' type="text" class="form-control" id="inputCity">
+                        </div>           
+                                <div class="form-group col-md-6">
+                                  <label for="inputCity">Date-of-birth</label>
+                                  <input required name='dob' type="date" class="form-control" id="inputCity">
+                                </div>          
+                                        <div class="form-group col-md-6">
+                                          <label for="inputCity">Mobile Number</label>
+                                          <input required name='mobile' min='6000000000' max='9999999999' type="number" class="form-control" id="inputCity">
+                                        </div>
+                
+                                        <div class="form-group col-md-4">
+                                                <label for="inputState">Gender</label>
+                                                <select required name='gender' id="inputState" class="form-control">
+                                                  <option selected>Choose...</option>
+                                                  <option>Male</option>
+                                                  <option>Female</option>
+                                                  <option>other</option>
+                                                </select>
+                                              </div>
+                  <div class="form-group col-md-4">
+                    <label for="inputState">country</label>
+                    <select required name='country' id="inputState" class="form-control">
+                      <option selected>Choose...</option>
+                      <option>Andhra Pradesh</option>
+                      <option>Telangana</option>
+                      <option>Punjab</option>
+                    </select>
+                  </div>
+                   
+               
+                 
+                <button type="submit" class="btn btn-primary">Sign in</button>
+              </form>
+
+</div>
+ 
+ 

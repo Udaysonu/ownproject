@@ -1,0 +1,19 @@
+#signin-div{
+     
+    display:flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    
+    width:100%;
+    height:100%;
+}
+ 
+#signin-div form{
+    border:2px solid grey;
+    width:100%;
+    height:90%;
+    padding:30px;
+    margin:40px;
+     
+}

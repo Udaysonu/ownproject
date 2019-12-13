@@ -1,0 +1,58 @@
+<link rel='stylesheet' type='text/css' href='/css/home.css'>
+
+<div id="home_screen">
+
+    <div id='feed_screen'>
+        <%if(locals.user){%>
+        <form action="/feed/post_create" method="post">
+            <textarea name='content' rows="6" cols="60" placeholder="Post what is in your mind......"></textarea>
+            <input type='text' hidden name=user value="<%=user.id%>">
+            <button type='submit'>Post</button>
+        </form>
+        <%}%>
+        <ul type='none'>
+        <%for(post of posts){%>
+            <li><small><%if(post.user.photo){%> <img width='40px' height="40px" src="<%=post.user.photo%>"><%}else{%>
+                <img width='40px' height="40px" src='/images/unknown.jpg'>
+                
+                <%}%><%=post.user.name%></small></li>
+            <li><%=post.content%>
+            <%if(locals.user){%>
+            <form action="/feed/comment_create" method='post'>
+            <input type='text' value='<%=post.id%>' name='post' hidden>
+            <input type='text' value="<%=user.id%>" name='user' hidden>
+            <textarea name='content' ></textarea>
+            <button type='submit'>Comment</button>
+            </form>
+            <%}%>
+            </li>
+            <%for(comment of post.comments){%>
+
+               <sub><li><%=comment.user.name%></li></sub> 
+            <li><%=comment.content%></li>
+            <%}%>
+
+        <%}%>
+    </div>
+
+    <div id='friends_screen'>
+                    <ul>
+                    <%if(locals.user){%>
+                       <%for(one_user of all_users){%>
+                       <li><a href="/user/profile/<%=one_user._id%>"><%=one_user.name%></a></li>
+                       <%}%>
+                        <%}%>
+                        
+                    </ul>
+    </div>
+    
+
+
+            </ul>
+
+
+
+       
+   
+
+</div>

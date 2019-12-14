@@ -1,31 +1,128 @@
 #home_screen{
-    
+    background-color: rgb(206, 204, 204);
+     
     display:flex;
     flex-direction: row;
     justify-content: center;
-    
-    flex-wrap: wrap;
-     
+    flex-wrap: wrap;   
     width:100%;
-    
+    box-sizing: border-box;
 
 }
+li{
+    list-style-type: none;
+    padding-left: 20px;
+}
+span{
+    background-color: white;
+    border:2px solid green
+}
 #feed_screen{
- 
-width:70%;
-min-height:100vh;
-background-color: rgb(255, 255, 255);
+    box-sizing: border-box;
+    width:75%;
+    min-height:100vh;
+    background-color: rgb(255, 255, 255);
 }
 #friends_screen{
-     background-color: rgb(247, 247, 247);
-width:30%;
-min-height: 100vh;
-   }
-@media screen and (max-width:700px){
-       #feed_screen{
-           width:100%;
-       }
-       #friends_screen{
-           width:0%;
-       }
-   }
+     box-sizing: border-box;
+     background-color: rgb(206, 204, 204);
+     width:25%;
+     padding:20px;
+     min-height: 100vh;
+}
+
+#post_create{
+     box-sizing: border-box;
+    padding:30px;
+}
+
+#post_div{
+    padding:30px;
+    box-sizing: border-box;
+    border:4px solid rgb(206, 206, 206);
+}
+
+#comment_div{
+    border:2px solid grey;
+    padding:30px;
+    /* border:2px solid blue; */
+    padding-left: 60px;
+    box-sizing: border-box;
+}
+#friends_screen li{
+    padding:5px;
+    border-bottom:2px solid green
+}
+#friends_screen li:hover{
+    color:grey;
+    background-color: white;
+    
+}
+#friends_screen h2{
+    padding:10px;
+    border-bottom:4px solid rgb(0, 0, 0)
+}
+textarea{
+    border:1px solid rgb(12, 89, 255);
+}
+@media screen and (max-width:900px){
+    #home_screen{
+        overflow: hidden;
+    }
+    #feed_screen{
+        width:100%;
+    }
+    #friends_screen{
+        overflow: hidden;
+        min-width: 0px;
+        min-height: 0px;
+        width:0px;
+        height:0px;
+    }
+    span form textarea{
+        background-color: white;
+        width:80%;
+
+        height: 100px;
+    }
+
+}
+@media screen and (max-width:600px){
+    #home_screen{
+        overflow: hidden;
+    }
+    #feed_screen{
+        width:100%;
+    }
+    #friends_screen{
+        overflow: hidden;
+        
+        min-height: 0px;
+        min-width: 0px;
+        width:1px;
+        height:0px;
+    }
+    span form textarea{
+
+        width:80%;
+        height:100px;
+    }
+    
+#post_div{
+    padding:5px;
+    box-sizing: border-box;
+    border:2px solid rgb(206, 206, 206);
+    margin-left:-20px
+}
+
+#comment_div{
+    border:1px solid grey;
+    padding:15px;
+    /* border:2px solid blue; */
+    padding-left: 20px;
+    box-sizing: border-box;
+    margin-left:-10px
+}
+ 
+    
+}

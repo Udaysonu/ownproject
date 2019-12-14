@@ -1,15 +1,19 @@
 const User=require('../models/userSchema');
 const passport=require('passport');
+const multer=require('multer');
 module.exports.signin=function(req,res){
     if(req.isAuthenticated()){
+        req.flasj('info','User Already Signed In')
         return res.redirect('/');
     }
     return res.render('signin');
 }
 module.exports.singup=function(req,res){
     if(req.isAuthenticated()){
+        req.flash('info','User Already Signed In')
         return res.redirect('/')
     }
+
     return res.render('signup');
 }
 module.exports.createUser=function(req,res){
@@ -19,15 +23,19 @@ module.exports.createUser=function(req,res){
             console.log('Error in finding the user during signup')
         }
         if(user){
+            req.flash('info','User Already exists with the email')
             console.log('User already exists with the email');
             return res.redirect('back');
         }else{
             User.create(req.body,function(err,user){
                 if(err){
+                    req.flash('error','Error in Signing up')
                     console.log('Error in creating User in signup -- check 2',err);
+
                 return res.redirect('back');
                 }else{
-                    return res.redirect('/');
+                    req.flash('success','Succesfully Signed Up!! Login to continue')
+                    return res.redirect('/user/signin');
                 }
 
             })
@@ -41,14 +49,17 @@ module.exports.createUser=function(req,res){
 }
 module.exports.authenticate=function(req,res){
     if(req.isAuthenticated()){
+        req.flash('info','Already signed in !!!')
        return res.redirect('/')
     }
     else{
+        
         return res.redirect('/user/signin');
     }   
 }
 module.exports.destroySession=function(req,res){
     if(req.isAuthenticated){
+        req.flash('success','You logged out!!!')
         req.logout();
     }
     return res.redirect('/user/signin');
@@ -64,9 +75,24 @@ module.exports.profile=function(req,res){
 }
 module.exports.update_profile=function(req,res){
     //  console.log(user)
+
+    User.uploadedAvatar(req,res,function(err){
+
+  if(err){
+      console.log('error in uploaded avatar',err);
+      req.flash('error','Error in uploading Picture')
+      return res.redirect('back')
+  }else{
     User.findByIdAndUpdate(req.params.id,req.body,function(err,user){
+        console.log(req.body,req.file);
+        
+        user.avatar=User.avatarPath+'/'+req.file.filename;
+        user.save();
+        req.flash('success','Succesfully updated Profile')
         console.log('updated succesfully-- check 1');
         return res.redirect('back')
     })
+}
+})
      
 }

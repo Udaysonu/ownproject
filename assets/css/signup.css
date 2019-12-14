@@ -13,3 +13,13 @@
     margin:20px;
 
 }
+
+@media screen and (max-width:600px){
+
+    #signup-div form{
+        border:1px solid grey;
+        padding:10px;
+        margin:10px;
+    
+    }
+}

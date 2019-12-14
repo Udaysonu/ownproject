@@ -1,9 +1,10 @@
 <div>
+  <img src="<%= user_profile.avatar %>" width=100 height=100>
 <%if(user.id==user_profile.id){%>
    
     <div id='signup-div'>
     
-            <form action="/user/update_profile/<%=user.id%>" method="post" > 
+            <form action="/user/update_profile/<%=user.id%>" enctype="multipart/form-data" method="post" > 
                 <legend style='color:green'>Sign Up</legend>
                     <div class="form-group col-lg-9">
                             <label for="inputEmail4">Email</label>
@@ -18,15 +19,16 @@
                       </div>
                       
                     </div>
+                    <div class="form-group col-md-3">
+                        <label for="inputCity"> Choose Profile pic</label>
+                        <input name="avatar" required name='dob' type="file" class="form-control" id="inputCity">
+                      </div> 
                      
                             <div class="form-group col-md-6">
                               <label for="inputCity">Name</label>
                               <input value="<%=user_profile.name%>" requierd name='name' type="text" class="form-control" id="inputCity">
                             </div>           
-                                    <div class="form-group col-md-6">
-                                      <label for="inputCity">Date-of-birth</label>
-                                      <input value="<%=user_profile.dob%>" required name='dob' type="date" class="form-control" id="inputCity">
-                                    </div>          
+                                             
                                             <div class="form-group col-md-6">
                                               <label for="inputCity">Mobile Number</label>
                                               <input value="<%=user_profile.mobile%>" required name='mobile' min='6000000000' max='9999999999' type="number" class="form-control" id="inputCity">

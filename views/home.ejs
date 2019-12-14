@@ -1,58 +1,66 @@
 <link rel='stylesheet' type='text/css' href='/css/home.css'>
 
 <div id="home_screen">
-
-    <div id='feed_screen'>
         <%if(locals.user){%>
-        <form action="/feed/post_create" method="post">
-            <textarea name='content' rows="6" cols="60" placeholder="Post what is in your mind......"></textarea>
-            <input type='text' hidden name=user value="<%=user.id%>">
-            <button type='submit'>Post</button>
-        </form>
-        <%}%>
-        <ul type='none'>
-        <%for(post of posts){%>
-            <li><small><%if(post.user.photo){%> <img width='40px' height="40px" src="<%=post.user.photo%>"><%}else{%>
+            <form id="post-form"  action="/feed/post_create" method="post">
+                <textarea name='content' rows="6" cols="60" placeholder="Post what is in your mind......"></textarea>
+               <input type='text' hidden name=user value="<%=user.id%>">
+               <button style='margin:10px' class="btn btn-outline-success my-2 my-sm-0" type="submit">Post</button>
+            </form>
+             <%}%>
+             
+    <div id='feed_screen'>
+        <div id="post_create">
+             
+           
+
+             
+          <%for(post of posts){%>
+        <div id="post_div_<%=post.id%>">
+            <li><small><%if(post.user.avatar){%> <img width="40px" height="40px" style="border-radius:50%" src="<%=post.user.avatar%>"><%}else{%>
                 <img width='40px' height="40px" src='/images/unknown.jpg'>
                 
-                <%}%><%=post.user.name%></small></li>
-            <li><%=post.content%>
+                <%}%> <%=post.user.name%> </small></li>
+            <li><%=post.content%><%if(locals.user && user.id==post.user.id){%><a class="delete-post" href="/feed/destroy_post/<%=post.id%>">delete</a><%}%>
             <%if(locals.user){%>
             <form action="/feed/comment_create" method='post'>
             <input type='text' value='<%=post.id%>' name='post' hidden>
             <input type='text' value="<%=user.id%>" name='user' hidden>
-            <textarea name='content' ></textarea>
-            <button type='submit'>Comment</button>
+            <textarea placeholder="Comment ..... " name='content' ></textarea>
+            <button style='margin:10px' class="btn btn-outline-success my-2 my-sm-0" type="submit"> Comment</button>
             </form>
             <%}%>
             </li>
             <%for(comment of post.comments){%>
-
-               <sub><li><%=comment.user.name%></li></sub> 
-            <li><%=comment.content%></li>
+                <div id="comment_div">
+                        <b><li><img width='30' height='30'src='<%=comment.user.avatar%>'><%=comment.user.name%></li></b> 
+                         <li><%=comment.content%><%if(locals.user && user.id==comment.user.id){%><a href="/feed/destroy_comment/<%=comment.id%>">delete</a><%}%></li>
+                </div>
             <%}%>
-
-        <%}%>
+        </div> 
+             <%}%>
+               
     </div>
-
+<%if(locals.user){%>
     <div id='friends_screen'>
-                    <ul>
+            <h2 style='color:orange'>Friends</h2>
+                    <ul type="none">
+                    
                     <%if(locals.user){%>
                        <%for(one_user of all_users){%>
-                       <li><a href="/user/profile/<%=one_user._id%>"><%=one_user.name%></a></li>
+                        <%if(one_user.id!=user.id){%>
+                            
+                       <li><a href="/user/profile/<%=one_user._id%>"><img width=40 height=40 style="border-radius:50%" src="<%=one_user.avatar%>"><%=one_user.name%></a></li>
+                       <%}%>
                        <%}%>
                         <%}%>
                         
                     </ul>
     </div>
     
-
+<%}%>
 
             </ul>
-
-
-
-       
-   
-
 </div>
+<script src="/js/home_post.js">
+</script>

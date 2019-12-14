@@ -2,19 +2,35 @@ var Post=require('../models/postSchema');
 var User=require('../models/userSchema');
 var Comment=require('../models/commentSchema');
 var nodemailer=require('../mailer/comment_mailer');
-module.exports.post_create=function(req,res){
+module.exports.post_create=function(req,res)
+{
     console.log(req.body,'****************')
     Post.create({content:req.body.content,
-    user:req.body.user},function(err,post){
-        if(err){
+    user:req.body.user},function(err,post)
+    {Post.findById(post._id).populate('user').exec(function(err,post){
+        if(err)
+        {
             console.log('Error in creating the Post',req.body);
             return res.redirect('/');
         }
         else{
+            if(req.xhr)
+            {
+                console.log(post)
+                return res.status(200).json({
+                    data:{
+                        post:post
+                    },message:'Post created succesfully'
+                })
+            
+                
+            }
             console.log('Post created Sucessfully');
+            req.flash('success','Post created succesfully!')
             return res.redirect('/');
         }
     })
+})
 }
 module.exports.comment_create=function(req,res){
     console.log('entered check 1',req.body)
@@ -36,8 +52,9 @@ module.exports.comment_create=function(req,res){
                     // console.log(post);
                     post.save();
                     nodemailer.comment_mailer(post);
+
                 })
-                 
+                 req.flash('success','Comment created Succesfully!')
                 console.log('comment succesfully created');
                  return res.redirect('/')
             }
@@ -46,3 +63,59 @@ module.exports.comment_create=function(req,res){
     })
 }
  
+
+module.exports.destroy_comment=function(req,res){
+Comment.findById(req.params.id,function(err,comment){
+    Post.findByIdAndUpdate(comment.post, {$pull: {comments: comment.id}},function(err,user){
+        
+    })
+    comment.remove();
+    req.flash('success','Comment deleted Succesfully!');
+    return res.redirect("back");
+    
+})
+
+
+}
+module.exports.destroy_post=function(req,res){
+    console.log('check1')
+    Post.findById(req.params.id,function(err,post){
+         
+        if(err){
+            
+            console.log('Unable to delete comment');
+            req.flash('error','Unable to delete comment');
+            return res.redirect('back')
+        }else{
+            if(post.user==req.user.id){
+                console.log(post.user,req.user.id,'check2')
+                post.remove()
+                req.flash('success','Post and associated comments deleted succesfully!!')
+                Comment.deleteMany({post:req.params.id},function(err){
+                    if(err){
+                        console.log('Unable to delte the Comments associated with the posts');
+                         
+                    }
+                    else{
+                       
+                       
+                    }
+                    
+                })
+                if(req.xhr){
+                     
+                    return res.status(200).json({data:{
+                        post_id:req.params.id
+                    }})
+                }
+
+                
+            }else{
+                req.flash('error','Unauthorzied to delete the post')
+                
+            }
+
+            return res.redirect('back')
+        }
+    })
+}

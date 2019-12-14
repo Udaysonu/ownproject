@@ -17,3 +17,10 @@
     margin:40px;
      
 }
+@media screen and (max-width:600px){
+    
+    #signin-div form{
+        padding:10px;
+        margin:5px;
+    }
+}

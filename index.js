@@ -29,8 +29,6 @@ app.set("layout extractStyles", true)
 //passport authentication
 app.use(express.static("./assets"));
 app.use('/uploads',express.static(__dirname+'/uploads'));
-
- 
 app.use(session({ name:"user_id",
     secret: "cats",
     saveUninitialized: true,

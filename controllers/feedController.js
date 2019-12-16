@@ -77,45 +77,31 @@ Comment.findById(req.params.id,function(err,comment){
 
 
 }
-module.exports.destroy_post=function(req,res){
-    console.log('check1')
-    Post.findById(req.params.id,function(err,post){
+module.exports.destroy_post=async function(req,res){
+    console.log('check1',req.params.id)
+    try{
+    post=await Post.findById(req.params.id,function(err,post){
          
-        if(err){
-            
-            console.log('Unable to delete comment');
-            req.flash('error','Unable to delete comment');
-            return res.redirect('back')
-        }else{
-            if(post.user==req.user.id){
+      
+    if(post.user==req.user.id){
                 console.log(post.user,req.user.id,'check2')
                 post.remove()
                 req.flash('success','Post and associated comments deleted succesfully!!')
-                Comment.deleteMany({post:req.params.id},function(err){
-                    if(err){
-                        console.log('Unable to delte the Comments associated with the posts');
-                         
-                    }
-                    else{
-                       
-                       
-                    }
+    Comment.deleteMany({post:req.params.id},function(err){
+                 
                     
                 })
-                if(req.xhr){
-                     
+    if(req.xhr){
+                 
                     return res.status(200).json({data:{
                         post_id:req.params.id
                     }})
                 }
-
-                
-            }else{
-                req.flash('error','Unauthorzied to delete the post')
-                
-            }
-
-            return res.redirect('back')
-        }
-    })
+    return res.redirect('back')}
+    })}
+    catch(error){
+        if(error){
+            console.log('error detected');
+return res.redirect(back);
+    }}
 }

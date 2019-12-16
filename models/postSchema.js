@@ -14,6 +14,6 @@ var PostSchema = new Schema({
      },
      comments:[{type:Schema.Types.ObjectId,
     ref:'CommentSchema'}]
-  });
+  },{timestamps:true});
 var Post = mongoose.model('PostSchema', PostSchema);
 module.exports=Post;

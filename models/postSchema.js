@@ -12,6 +12,10 @@ var PostSchema = new Schema({
          ref:'UserSchema',
          required:true
      },
+     likes:[{
+      type:Schema.Types.ObjectId,
+      ref:'LikeSchema'
+     }],
      comments:[{type:Schema.Types.ObjectId,
     ref:'CommentSchema'}]
   },{timestamps:true});

@@ -65,12 +65,53 @@ let deletePost=function(deleteLink){
 
 
 
+ {
+    console.log('from called')
+   var newcommentform=$(" .create_form")
+   newcommentform.submit(function(e){
+    var self=this;
+       e.preventDefault();
+       
+       var value=$(`#${this.getAttribute('id')}`).serialize();
+       
+     
+       $.ajax({
+           type:'post',
+           url:"/feed/comment_create",
+           data:value,
+           success:function(data){
+               console.log(data.comment);
+            $(`#post_div_${data.comment.post} #comment_create_div`).prepend(newcommentdiv(data.comment));
+           },
+           error:function(error){
+               console.log(error);
+           }
+       })
+    
+   })
+
+}
 
 
 
 
 
 
- createform();
+
+let newcommentdiv=function(comment){
+    return $(`
+    
+    
+    <div id="comment_div_${comment._id}">
+    <b><li><img width='30' height='30'src=' '>${comment.user.name}</li></b> 
+     <li>${comment.content}<a href="/feed/destroy_comment/<%=comment.id%>">delete</a></li>
+</div>
+    
+    
+    `)
+}
+
+
+createform();
 
 }

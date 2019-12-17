@@ -17,13 +17,15 @@
              
           <%for(post of posts){%>
         <div id="post_div_<%=post.id%>">
-                 <li><small><%if(post.user.avatar){%> <img width="40px" height="40px" style="border-radius:50%" src="<%=post.user.avatar%>"><%}else{%>
+                 <li><h1 style='display:inline-block'>Q</h1><small><%if(post.user.avatar){%> <img width="40px" height="40px" style="border-radius:50%" src="<%=post.user.avatar%>"><%}else{%>
                     <img width='40px' height="40px" src='/images/unknown.jpg'>
                 
                   <%}%> <%=post.user.name%> </small></li>
-                  <li><%=post.content%><%if(locals.user && user.id==post.user.id){%><a class="delete-post" href="/feed/destroy_post/<%=post.id%>">delete</a><%}%>
+                  <li><h5><%=post.content%></h5><%if(locals.user && user.id==post.user.id){%><a class="delete-post" href="/feed/destroy_post/<%=post.id%>">delete</a><%}%>
+                    <%if(locals.user){%><a class="toggle-like" href="/feed/toggle/?id=<%=post._id%>&type=Post"><%=post.likes.length%> likes</a><%}%>
                   <%if(locals.user){%>
-                      <form action="/feed/comment_create" method='post'>
+                    <h6 href='' class="write_button" data="<%=post.id%>" style="color:red">Write Answer</h6>
+                      <form class="create_form" id="new_comment_<%=post.id%>" action="/feed/comment_create" method='post'>
                      <input type='text' value='<%=post.id%>' name='post' hidden>
                      <input type='text' value="<%=user.id%>" name='user' hidden>
                      <textarea placeholder="Comment ..... " name='content' ></textarea>
@@ -31,12 +33,14 @@
                         </form>
                         <%}%>
                         </li>
+                        <div id="comment_create_div">
                       <%for(comment of post.comments){%>
-                          <div id="comment_div">
-                                     <b><li><img width='30' height='30'src='<%=comment.user.avatar%>'><%=comment.user.name%></li></b> 
+                          <div id="comment_div_<%=comment.id%>">
+                                     <b><h1 style="display:inline">A</h1><li><img width='30' height='30'src='<%=comment.user.avatar%>'><%=comment.user.name%></li></b> 
                                       <li><%=comment.content%><%if(locals.user && user.id==comment.user.id){%><a href="/feed/destroy_comment/<%=comment.id%>">delete</a><%}%></li>
                             </div>
                         <%}%>
+                        </div>
         </div> 
              <%}%>
                
@@ -65,3 +69,23 @@
 </div>
 <script src="/js/home_post.js"></script>
 <script src="/js/home_post_delete.js"></script>
+<script>
+var writeToggle=false
+var writeButton=$('.write_button');
+writeButton.click(function(){
+  if(writeToggle){
+    writeToggle=!writeToggle;
+    console.log(writeToggle,'clicked');
+    console.log( $(`#new_comment_${this.getAttribute('data')}`).attr('style'))
+    $(`#new_comment_${this.getAttribute('data')}`).css({"visibility":"hidden","height":"0px"});
+    
+  }else{
+    console.log( $(`#new_comment_${this.getAttribute('data')}`).attr('style'))
+    $(`#new_comment_${this.getAttribute('data')}`).css({"visibility":"visible","height":"100%"});
+    writeToggle=!writeToggle;
+    console.log(writeToggle,'clicked' );
+  }
+})
+ 
+
+</script>

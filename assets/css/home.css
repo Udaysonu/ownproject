@@ -14,8 +14,10 @@ li{
     padding-left: 20px;
 }
 span{
+    
     background-color: white;
-    border:2px solid green
+    border:2px solid green;
+    
 }
 #feed_screen{
     box-sizing: border-box;
@@ -125,4 +127,13 @@ textarea{
 }
  
     
+}
+#comment_create_div{
+    padding-left:40px;
+    background-color: rgb(75, 167, 243);
+}
+#comment_create_div div{
+    padding:2px;
+    background-color: rgb(231, 226, 226);
+    border-bottom: 2px solid rgb(75,167,243);
 }

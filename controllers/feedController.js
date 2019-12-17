@@ -52,11 +52,19 @@ module.exports.comment_create=function(req,res){
                     // console.log(post);
                     post.save();
                     nodemailer.comment_mailer(post);
+                    req.flash('success','Comment created Succesfully!')
+                    console.log('comment succesfully created');
+                    if(req.xhr){
+                        return res.status(200).json({
+                            comment:comment
+                        })
+                    }
+
+
+                     return res.redirect('/')
 
                 })
-                 req.flash('success','Comment created Succesfully!')
-                console.log('comment succesfully created');
-                 return res.redirect('/')
+               
             }
         })
         }

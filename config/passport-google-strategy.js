@@ -8,7 +8,7 @@ var User=require('../models/userSchema');
 passport.use(new GoogleStrategy({
     clientID: '650113212823-sfgongmj2tvnv3luooe55ml0am64lmjj.apps.googleusercontent.com',
     clientSecret:'Rb9LVw-qoejWn8amAEYV48sR',
-    callbackURL: "http://localhost:8000/user/auth/google/callback"
+    callbackURL: " http://3.15.176.32:8000//user/auth/google/callback"
   },
   function(accessToken, refreshToken, profile, done) {
     console.log(profile);

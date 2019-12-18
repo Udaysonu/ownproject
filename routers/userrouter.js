@@ -11,6 +11,9 @@ router.get('/profile/:id' ,userController.profile);
 router.get('/signout',userController.destroySession)
 router.post('/create_user',userController.createUser);
 router.post('/update_profile/:id',userController.update_profile)
+router.get('/comming',function(req,res){
+  return res.render('comming_soon',{title:"Comming Soon"})
+})
 // GET /auth/google
 //   Use passport.authenticate() as route middleware to authenticate the
 //   request.  The first step in Google authentication will involve

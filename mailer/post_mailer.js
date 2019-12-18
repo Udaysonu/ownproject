@@ -1,11 +1,11 @@
 const nodemailer=require('../config/nodemailer');
 
-module.exports.comment_mailer=function(post){
-    let htmlString=nodemailer.renderTemplate({post:post},'/comments/new_comment.ejs')
+module.exports.post_mailer=function(post){
+    let htmlString=nodemailer.renderTemplate({post:post},'/comments/new_post.ejs')
     nodemailer.transporter.sendMail({
         from:"udaysonubakka123@gmail.com",
         to:post.user.email,
-        subject:'New Comment on your post',
+        subject:'Question Created Succesfully !',
         html:htmlString
     },function(err,info){
         if(err){

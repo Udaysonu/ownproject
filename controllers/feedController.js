@@ -2,47 +2,50 @@ var Post=require('../models/postSchema');
 var User=require('../models/userSchema');
 var Comment=require('../models/commentSchema');
 var nodemailer=require('../mailer/comment_mailer');
+var postmailer=require('../mailer/post_mailer')
+var Likes=require('../models/likeSchema')
 module.exports.post_create=function(req,res)
 {
-    console.log(req.body,'****************')
+     
     Post.create({content:req.body.content,
     user:req.body.user},function(err,post)
     {Post.findById(post._id).populate('user').exec(function(err,post){
         if(err)
         {
-            console.log('Error in creating the Post',req.body);
+            
             return res.redirect('/');
         }
         else{
+            postmailer.post_mailer(post)
             if(req.xhr)
             {
                 console.log(post)
                 return res.status(200).json({
                     data:{
                         post:post
-                    },message:'Post created succesfully'
+                    },message:'Question created succesfully'
                 })
             
                 
             }
-            console.log('Post created Sucessfully');
-            req.flash('success','Post created succesfully!')
+            console.log('Question created Sucessfully');
+            req.flash('success','Question created succesfully!')
             return res.redirect('/');
         }
     })
 })
 }
 module.exports.comment_create=function(req,res){
-    console.log('entered check 1',req.body)
+    
     User.findById(req.body.user,function(err,user){
-        console.log('enterted check 2')
+         
         if(user){
-            console.log('enterd check 3');
+            
             Comment.create({content:req.body.content,
             post:req.body.post,
         user:req.body.user},function(err,comment){
             if(err){
-                console.log('Error in creating comment check 1');
+                 
                 return res.redirect('/');
             }else{
                 Post.findById(req.body.post).populate('user').exec(function(err,post){
@@ -52,7 +55,7 @@ module.exports.comment_create=function(req,res){
                     // console.log(post);
                     post.save();
                     nodemailer.comment_mailer(post);
-                    req.flash('success','Comment created Succesfully!')
+                    
                     console.log('comment succesfully created');
                     if(req.xhr){
                         return res.status(200).json({
@@ -60,7 +63,7 @@ module.exports.comment_create=function(req,res){
                         })
                     }
 
-
+                    req.flash('success','Comment created Succesfully!')
                      return res.redirect('/')
 
                 })
@@ -72,31 +75,47 @@ module.exports.comment_create=function(req,res){
 }
  
 
-module.exports.destroy_comment=function(req,res){
-Comment.findById(req.params.id,function(err,comment){
-    Post.findByIdAndUpdate(comment.post, {$pull: {comments: comment.id}},function(err,user){
-        
-    })
+module.exports.destroy_comment=async function(req,res){
+
+try{
+    if(!req.params.id){
+        return res.redirect('back');
+    }
+
+    let comment = await Comment.findById(req.params.id)
+ await  Post.findByIdAndUpdate(comment.post, {$pull: {comments: comment.id}})
     comment.remove();
+   await  Likes.deleteMany({likeable:req.params.id})
+    if(req.xhr){
+        return res.status(200).json({
+            messsage:"comment removed succesfully"
+        })
+    }
     req.flash('success','Comment deleted Succesfully!');
     return res.redirect("back");
+}
+catch(err){
     
-})
-
-
+    return res.redirect("back");
+}
 }
 module.exports.destroy_post=async function(req,res){
-    console.log('check1',req.params.id)
+    
     try{
     post=await Post.findById(req.params.id,function(err,post){
-         
+         if(!post){
+             return res.redirect('back')
+         }
       
     if(post.user==req.user.id){
-                console.log(post.user,req.user.id,'check2')
+                
+                Likes.deleteMany({likeable:req.params.id},function(err){
+                    console.log('likes deleted')
+                })
                 post.remove()
-                req.flash('success','Post and associated comments deleted succesfully!!')
+              
     Comment.deleteMany({post:req.params.id},function(err){
-                 
+                
                     
                 })
     if(req.xhr){
@@ -105,6 +124,7 @@ module.exports.destroy_post=async function(req,res){
                         post_id:req.params.id
                     }})
                 }
+    req.flash('success','Question and associated Answerss deleted succesfully!!')
     return res.redirect('back')}
     })}
     catch(error){

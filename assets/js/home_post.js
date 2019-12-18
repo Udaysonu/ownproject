@@ -12,6 +12,15 @@ let createform=function(){
                newpst=newpost(data.data.post);
                $("#post_create").prepend(newpst);
                 deletePost($(' .delete-post',newpst));
+                new Noty({
+                    theme:'relax',
+                    type: 'success',
+                layout: 'topRight',
+                timeout:1500,    
+                text: 'Question added succesfully !'
+                 
+            }).show();
+
             },
             error:
             function(err){
@@ -27,7 +36,7 @@ let newpost=function(post){
     <div id="post_div_${post._id}">
      
 <li><small> <img width="40px" height="40px" style="border-radius:50%" src="${post.user.avatar}">  ${post.user.name}</small></li>
-<li>${post.content} <a class="delete-post" href="/feed/destroy_post/${post._id}"> delete</a> 
+<li>${post.content} <a class="delete-post" href="/feed/destroy_post/${post._id}"> <i class="far fa-trash-alt"></i> Delete</a> 
  
 <form action="/feed/comment_create" method='post'>
 <input type='text' value='${post._id}' name='post' hidden>
@@ -47,6 +56,8 @@ let newpost=function(post){
 
 let deletePost=function(deleteLink){
     $(deleteLink).click(function(e){
+        e.stopImmediatePropagation();
+        e.stopPropogation();
         e.preventDefault();
         $.ajax({
             type:'get',
@@ -55,6 +66,14 @@ let deletePost=function(deleteLink){
                 console.log("Data post delete")
                 console.log(data.data.post_id)
                 $(`#post_div_${data.data.post_id}`).remove()
+                new Noty({
+                    theme:'relax',
+                    type: 'success',
+                layout: 'topRight',
+                timeout:1500,    
+                text: 'Post Deleted Succesfully'
+                 
+            }).show();
             },error:function(err){
                 console.log('Error in Console Data');
                 console.log(error.responseText);
@@ -70,6 +89,7 @@ let deletePost=function(deleteLink){
    var newcommentform=$(" .create_form")
    newcommentform.submit(function(e){
     var self=this;
+    e.stopImmediatePropagation();
        e.preventDefault();
        
        var value=$(`#${this.getAttribute('id')}`).serialize();
@@ -82,6 +102,14 @@ let deletePost=function(deleteLink){
            success:function(data){
                console.log(data.comment);
             $(`#post_div_${data.comment.post} #comment_create_div`).prepend(newcommentdiv(data.comment));
+            new Noty({
+                theme:'relax',
+                type: 'success',
+            layout: 'topRight',
+            timeout:1500,    
+            text: 'Answer Added Succesfully !!'
+             
+        }).show();
            },
            error:function(error){
                console.log(error);
@@ -99,12 +127,10 @@ let deletePost=function(deleteLink){
 
 
 let newcommentdiv=function(comment){
-    return $(`
-    
-    
+    return $(`    
     <div id="comment_div_${comment._id}">
-    <b><li><img width='30' height='30'src=' '>${comment.user.name}</li></b> 
-     <li>${comment.content}<a href="/feed/destroy_comment/<%=comment.id%>">delete</a></li>
+    <b><li><img width='30' height='30'src='/images/unknown.jpg '>${comment._id}</li></b> 
+     <li>${comment.content}<a  > <i class="far fa-trash-alt"></i> Delete</a></li>
 </div>
     
     

@@ -1,12 +1,13 @@
 const User=require('../models/userSchema');
 const passport=require('passport');
 const multer=require('multer');
+const usermailer=require('../mailer/signup_mailer');
 module.exports.signin=function(req,res){
     if(req.isAuthenticated()){
         req.flasj('info','User Already Signed In')
         return res.redirect('/');
     }
-    return res.render('signin');
+    return res.render('signin',{title:"Sign-In"});
 }
 module.exports.singup=function(req,res){
     if(req.isAuthenticated()){
@@ -14,7 +15,9 @@ module.exports.singup=function(req,res){
         return res.redirect('/')
     }
 
-    return res.render('signup');
+    return res.render('signup', {
+        title:"sign Up"
+    });
 }
 module.exports.createUser=function(req,res){
     if(req.body.password==req.body.re_password){
@@ -27,6 +30,7 @@ module.exports.createUser=function(req,res){
             console.log('User already exists with the email');
             return res.redirect('back');
         }else{
+
             User.create(req.body,function(err,user){
                 if(err){
                     req.flash('error','Error in Signing up')
@@ -34,6 +38,7 @@ module.exports.createUser=function(req,res){
 
                 return res.redirect('back');
                 }else{
+                    usermailer.new_user_mailer(user)
                     req.flash('success','Succesfully Signed Up!! Login to continue')
                     return res.redirect('/user/signin');
                 }
@@ -69,6 +74,7 @@ module.exports.profile=function(req,res){
     User.findById(req.params.id,function(err,user_profile){
         // console.log(user_profile,req.params.id);
         return res.render('profile',{
+            title:'Profile',
             user_profile:user_profile
         })
     })

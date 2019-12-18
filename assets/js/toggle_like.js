@@ -10,8 +10,9 @@
             url:value,
             type:'get',
             success:function(data){
-                self.innerHTML=data.likes+" likes"
-                self.style.color="orange"
+                self.innerHTML='<i class="far fa-thumbs-up"></i>'+data.likes+" likes"
+                if(data.deleted){self.style.color="red"}else{self.style.color="green"}
+                
                 console.log(data.likes);
             }
         })

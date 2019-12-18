@@ -11,7 +11,7 @@ module.exports.home=async function(req,res){
     
         
     return res.render('home',{
-            title:'home',
+            title:'Home',
             posts:posts,
             all_users:all_users})
     

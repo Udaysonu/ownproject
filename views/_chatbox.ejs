@@ -1,0 +1,97 @@
+<!-- <link rel="stylesheet" type="text/css" href="/css/chatbox.css"> -->
+<link rel='stylesheet' type='text/css' href='/css/chatbox.css'>
+<style>
+    #user-chat-box{
+    position:fixed;
+    bottom:10px;
+    right:10px;
+    border:2px double rgb(255, 166, 0);
+    height:40px;
+    width:300px;
+    background-color: white;
+    padding:5px;
+    box-shadow: 1px 1px 1px 1px lightgrey;
+}
+#chat-messages-list{
+    border:2px solid red;
+    list-style:none;
+    padding:10px;
+    height:75%;
+    background-color: white;
+    overflow: auto;
+
+}
+.self-message{
+    text-align: right;
+    padding:5px;
+}
+.other-message{
+    text-align:left;
+    padding:5px;
+}
+
+.other-message span{
+    display:inline-block;
+    padding:8px;
+    background-color: lightpink;
+}
+.self-message span{
+    display:inline-block;
+    padding:8px;
+    background-color: rgb(156, 207, 255);
+}
+#chat-message-input-container button{
+    margin-left:20px;
+    border:2px solid yellow;
+}
+#chat-messages-list li{
+border:none !important;
+}
+</style>
+
+<div id="user-chat-box">
+<div>
+    <h5>Chat Box <a id="minus" href="/"> <i class="far fa-minus-square"></i></a></h5>
+</div>
+<ul id='chat-messages-list'>
+    <li style='border:none' class="other-message">
+        <span>Other Message</span>
+    </li>
+    <li style='border:none' class="self-message">
+        <span>
+            Self Message
+        </span>
+    </li>
+
+
+
+</ul>
+<div id="chat-message-input-container">
+    <input id='chat-message-input' placeholder="Type message here">
+    <button id="send-message">Send</button>
+</div>
+
+
+</div>
+
+
+<script>
+    var minus=true
+$('#minus').click(function(e){
+    console.log('cicked')
+    e.preventDefault()
+
+if(!minus){
+    console.log(minus)
+    $('#chat-message-list').css({"height":"0%"})
+    $('#user-chat-box').css({"height":"40px"})
+    minus=!minus
+}else{
+    console.log(minus)
+    $('#chat-message-list').css({"height":"75%"})
+    $('#user-chat-box').css({"height":"350px"})
+    minus=!minus
+}
+})
+
+</script>

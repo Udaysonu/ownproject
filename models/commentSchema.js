@@ -14,7 +14,11 @@ var CommentSchema = new Schema({
     user:{
         type:Schema.Types.ObjectId,
         ref:'UserSchema'
-    }
+    },
+    likes:[{
+        type:Schema.Types.ObjectId,
+        ref:"LikeSchema"
+    }]
   });
 var Comment = mongoose.model('CommentSchema', CommentSchema);
 module.exports=Comment;

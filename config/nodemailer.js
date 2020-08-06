@@ -14,8 +14,8 @@ const path=require('path');
     port: 25,
     secure: false, // true for 465, false for other ports
     auth: {
-      user: 'udaysonubakka123@gmail.com', // generated ethereal user
-      pass: "udayyadusonu1" // generated ethereal password
+      user: 'badavath@gmail.com', // generated ethereal user
+      pass: "passwordhere" // generated ethereal password
     }
   });
 

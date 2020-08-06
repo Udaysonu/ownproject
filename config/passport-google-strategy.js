@@ -17,7 +17,7 @@ passport.use(new GoogleStrategy({
          return done(err, user);}
          User.create({name:profile.displayName,
         email:profile.emails[0].value,
-      password:'8179472019',
+      password:'phonenumber',
       avatar:profile.photos[0].value
    },function(err,user){
     console.log('boooooooooooooooooom');
